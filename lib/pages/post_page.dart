@@ -14,7 +14,8 @@ class _PagePostState extends State<PagePost> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(title: const Text("Posts")),
+        appBar:
+            AppBar(title: const Text("Posts"), backgroundColor: Colors.black),
         body: FutureBuilder(
             future: HttpService.getPosts(),
             builder: (contexto, snapshot) {
@@ -31,7 +32,7 @@ class _PagePostState extends State<PagePost> {
                       children: posts
                           .map(
                             (Post post) => ListTile(
-                              leading: Icon(Icons.star),
+                              leading: const Icon(Icons.star),
                               title: Text(post.title),
                               subtitle: Text("${post.userId}"),
                             ),

@@ -14,7 +14,7 @@ class _PagePostState extends State<PagePost> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(title: Text("Posts")),
+        appBar: AppBar(title: const Text("Posts")),
         body: FutureBuilder(
             future: HttpService.getPosts(),
             builder: (contexto, snapshot) {
@@ -39,7 +39,7 @@ class _PagePostState extends State<PagePost> {
                           .toList(),
                     );
                   } else {
-                    return Center(child: Text('Sem dados'));
+                    return const Center(child: Text('Sem dados'));
                   }
 
                 default:
@@ -57,8 +57,6 @@ class _PagePostState extends State<PagePost> {
                     );
                   }
               }
-
-              return Container();
             }));
   }
 }

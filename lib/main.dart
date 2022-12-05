@@ -1,25 +1,9 @@
 import 'package:consumindo_api_rest/pages/post_page.dart';
 import 'package:consumindo_api_rest/service/servico.dart';
-import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
-import 'dart:async';
-import 'dart:convert';
-
-Future<Map> getDat() async {
-  var viaCep = "https://viacep.com.br/ws/62820000/json/";
-  http.Response resp = await http.get(Uri.parse(viaCep));
-  print(resp.body);
-  var mapa = jsonDecode(resp.body);
-  print(mapa['cep']);
-
-  //print(mapa);
-  return mapa;
-}
 
 void main() async {
   await APIService.getDataCEP();
-  //SharedPreferences prefers = SharedPreferenes.instance();
   runApp(const MyApp());
 }
 
@@ -28,12 +12,9 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return const MaterialApp(
       title: 'Flutter API',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
-      home: const MyHomePage(title: 'Flutter Demo API'),
+      home: MyHomePage(title: "App - Exemplo consulta WebService"),
     );
   }
 }
@@ -51,49 +32,98 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text(widget.title)),
-      body: FutureBuilder(
-          future: APIService.getDataCEPDio(),
-          builder: (contexto, snapshot) {
-            switch (snapshot.connectionState) {
-              //case ConnectionState.active:
-              case ConnectionState.waiting:
-                return const Center(child: CircularProgressIndicator());
-              case ConnectionState.done:
-                if (snapshot.hasData) {
-                  var info = snapshot.data as Map<String, dynamic>;
-                  return Center(
-                      child:
-                          Container(child: Text('info ${info['localidade']}')));
-                } else {
-                  return Center(child: Text('Sem dados'));
+      appBar: AppBar(title: Text(widget.title), backgroundColor: Colors.black),
+      body: Column(
+        children: [
+          buildRow(),
+          FutureBuilder(
+              future: APIService.getDataCEPDio(),
+              builder: (contexto, snapshot) {
+                switch (snapshot.connectionState) {
+                  //case ConnectionState.active:
+                  case ConnectionState.waiting:
+                    return const Center(child: CircularProgressIndicator());
+                  case ConnectionState.done:
+                    if (snapshot.hasData) {
+                      var info = snapshot.data as Map<String, dynamic>;
+                      return Center(
+                          child: Container(
+                              child: Text('info ${info['localidade']}')));
+                    } else {
+                      return Center(child: Text('Sem dados'));
+                    }
+                  default:
+                    if (snapshot.hasError) {
+                      return const Center(
+                          child: Text("Erro ao carregar dados !"));
+                    } else {
+                      return const Center(
+                        child: Text(
+                          "Carregando...",
+                          style: TextStyle(
+                              color: Color.fromARGB(255, 81, 13, 182),
+                              fontSize: 25.0),
+                        ),
+                      );
+                    }
                 }
-              default:
-                if (snapshot.hasError) {
-                  return const Center(child: Text("Erro ao carregar dados !"));
-                } else {
-                  return const Center(
-                    child: Text(
-                      "Carregando...",
-                      style: TextStyle(
-                          color: Color.fromARGB(255, 81, 13, 182),
-                          fontSize: 25.0),
-                    ),
-                  );
-                }
-            }
-
-            return Container();
-          }),
+              }),
+        ],
+      ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           Navigator.push(context, MaterialPageRoute(builder: (ctx) {
-            return PagePost();
+            return const PagePost();
           }));
         },
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
+        tooltip: 'Send',
+        backgroundColor: Colors.black,
+        child: const Icon(Icons.get_app),
       ), // This trailing comma makes auto-formatting nicer for build methods.
+    );
+  }
+
+  Widget buildButton(String texto, IconData icone, Function f) {
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: OutlinedButton.icon(
+        style: OutlinedButton.styleFrom(),
+        onPressed: () => f(),
+        icon: Icon(
+          icone,
+          color: Colors.black,
+        ),
+        label: Text(
+          texto,
+          style: TextStyle(color: Colors.black),
+        ),
+      ),
+    );
+  }
+
+  Widget buildRow() {
+    return Padding(
+      padding: const EdgeInsets.all(20),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          buildButton('Enviar', Icons.send, HttpService.postExample),
+          buildButton('Atualizar', Icons.refresh, HttpService.putExample),
+          buildButton('Deletar', Icons.delete, HttpService.deleteExample),
+          /*OutlinedButton.icon(
+              onPressed: () => HttpService.postExample(),
+              icon: Icon(Icons.send),
+              label: Text('Enviar')),
+          OutlinedButton.icon(
+              onPressed: () => HttpService.putExample(),
+              icon: Icon(Icons.refresh_outlined),
+              label: Text('Atualizar')),
+          OutlinedButton.icon(
+              onPressed: () => HttpService.deleteExample(),
+              icon: Icon(Icons.send),
+              label: Text('Deletar'))*/
+        ],
+      ),
     );
   }
 }

@@ -1,7 +1,6 @@
-import 'package:flutter/material.dart';
-
 import '../models/post.dart';
 import '../service/servico.dart';
+import 'package:flutter/material.dart';
 
 class PagePost extends StatefulWidget {
   const PagePost({Key? key}) : super(key: key);

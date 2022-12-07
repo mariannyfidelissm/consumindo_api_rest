@@ -14,6 +14,7 @@ class MyApp extends StatelessWidget {
     return const MaterialApp(
       title: 'Flutter API',
       home: MyHomePage(title: "App - Exemplo consulta WebService"),
+      debugShowCheckedModeBanner: false,
     );
   }
 }

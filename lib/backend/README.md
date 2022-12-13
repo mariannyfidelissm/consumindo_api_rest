@@ -66,3 +66,16 @@ Na arquitetura de softwre implementada nesse projeto MVC é função do controll
 É interessante para cada entidade um controller específico. No nosso exemplo de Controle de Tarefas teremos um TarefaController encarregado de buscar, salvar e deletar as tarefas em um banco de dados.
 
 Os controllers devem possuir métodos referentes aos CRUDS de uma aplicação. É no controle que os dados das requisições são processados e retornados (response) com o devido tratamento.
+
+# Referências bibliográficas
+
+Observação: as referências abaixo estão sendo usadas como referências para implementação dos exemplos e materiais de aula.
+
+* [Guia do Knex](https://knexjs.org/guide/query-builder.html)
+
+* [Documentação NodeJs](https://nodejs.org/en/docs/guides/getting-started-guide/)
+  
+* [Como utilizar o Postgres com o Knex em API NodeJs](https://dev.to/jimmymcbride/how-to-use-postgres-with-knex-on-your-node-api-4k8h)
+
+* [Criando um projento fim a fim com Node e Flutter](https://thiagoevoa.medium.com/creating-an-end-to-end-project-from-node-js-backend-to-flutter-app-a8df8ffdde5b)
+

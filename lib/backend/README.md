@@ -37,10 +37,17 @@
 
 # Explicação dos arquivos
 
-* Migrations - 
-  
-* Seeds - 
+* Migrations - é basicamente uma forma de versionar o seu banco de dados. As migrations possuem três focos principais: **Criação, Alteração e Remoção**.
 
+Desse modo, se você tiver várias configurações de testes em um banco de dados. 
+
+**Up:** função para executar a mudança
+
+**Down:** função para desfazer as mudanças que foram feitas com a função *UP*
+  
+* Seeds - é basicamente a população da tabela do seu banco de dados.
+
+Ao executar o comando __$ npm run reset-db__ você observará que seu banco será criado e também populado com os dados inseridos nas _seeds_.
 
 ## Knex.js
 O arquivo knex.js é o arquivo responsável pelas configurações do ambiente de banco de dados que será executado no projeto.
